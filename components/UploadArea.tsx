@@ -57,7 +57,7 @@ export const UploadArea: React.FC<UploadAreaProps> = ({ onFileSelect, selectedFi
               <p className="text-xs text-gray-500">{(selectedFile.size / 1024).toFixed(2)} KB</p>
             </div>
           </div>
-          <Button variant="outline" onClick={onClear} size="sm" className="p-2 h-auto text-gray-400 hover:text-red-500 border-none bg-transparent hover:bg-transparent shadow-none">
+          <Button variant="outline" onClick={onClear} className="p-2 h-auto text-gray-400 hover:text-red-500 border-none bg-transparent hover:bg-transparent shadow-none">
             <X className="h-5 w-5" />
           </Button>
         </div>

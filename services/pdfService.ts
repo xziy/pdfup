@@ -1,10 +1,10 @@
-import { PDFDocument, PageSizes, Degrees } from 'pdf-lib';
+import { PDFDocument, PageSizes } from 'pdf-lib';
 import { PageLayout, ProcessingOptions } from '../types';
 
 export const generateTiledPdf = async (
   file: File, 
   options: ProcessingOptions
-): Promise<Uint8Array> => {
+): Promise<Uint8Array<ArrayBuffer>> => {
   try {
     const fileArrayBuffer = await file.arrayBuffer();
     
@@ -92,7 +92,7 @@ export const generateTiledPdf = async (
     }
 
     const pdfBytes = await pdfDoc.save();
-    return pdfBytes;
+    return pdfBytes as Uint8Array<ArrayBuffer>;
   } catch (error) {
     console.error("PDF Generation Error", error);
     throw new Error("Failed to generate PDF. Ensure the file is a valid PDF.");
