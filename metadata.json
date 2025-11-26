@@ -1,0 +1,5 @@
+{
+  "name": "Check Tiler PDF Utility",
+  "description": "A tool to take a single PDF check and tile it 8 times onto a single sheet for efficient printing.",
+  "requestFramePermissions": []
+}
