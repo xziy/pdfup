@@ -8,6 +8,7 @@ import { Download, LayoutTemplate, Printer } from 'lucide-react';
 const App: React.FC = () => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [layout, setLayout] = useState<PageLayout>(PageLayout.LetterPortrait);
+  const [copiesPerPage, setCopiesPerPage] = useState<number>(8);
   const [result, setResult] = useState<ProcessedPdfState>({
     url: null,
     fileName: null,
@@ -23,12 +24,13 @@ const App: React.FC = () => {
     try {
       const pdfBytes = await generateTiledPdf(selectedFile, {
         layout,
-        margin: 18
+        margin: 18,
+        copiesPerPage
       });
 
       const blob = new Blob([pdfBytes], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-      const fileName = `8-up-${selectedFile.name}`;
+      const fileName = `${copiesPerPage}-up-${selectedFile.name}`;
 
       setResult({
         url,
@@ -80,7 +82,7 @@ const App: React.FC = () => {
           <div className="text-center">
             <h2 className="text-3xl font-bold text-gray-900 sm:text-4xl">8-Up PDF Layout Tool</h2>
             <p className="mt-3 text-lg text-gray-500">
-              Upload a single PDF check and we'll arrange 8 copies onto a single vertical page (2 columns x 4 rows) for efficient printing.
+              Upload a single PDF check and we'll arrange {copiesPerPage} copies onto a single page for efficient printing.
             </p>
           </div>
 
@@ -128,7 +130,23 @@ const App: React.FC = () => {
                       <option value={PageLayout.A4Landscape}>A4 - Landscape</option>
                     </select>
                     <p className="mt-2 text-xs text-gray-500">
-                      Portrait mode fits 8 checks (2 columns x 4 rows).
+                      Portrait mode fits multiple checks.
+                    </p>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Copies per Page</label>
+                    <select 
+                      value={copiesPerPage}
+                      onChange={(e) => setCopiesPerPage(Number(e.target.value))}
+                      className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md border"
+                    >
+                      <option value={1}>1 copy</option>
+                      <option value={4}>4 copies</option>
+                      <option value={8}>8 copies (Recommended)</option>
+                      <option value={9}>9 copies</option>
+                    </select>
+                    <p className="mt-2 text-xs text-gray-500">
+                      Number of check copies to arrange on each page.
                     </p>
                   </div>
                 </div>

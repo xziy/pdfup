@@ -15,4 +15,5 @@ export enum PageLayout {
 export interface ProcessingOptions {
   layout: PageLayout;
   margin: number;
+  copiesPerPage: number;
 }

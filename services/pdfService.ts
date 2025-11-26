@@ -51,9 +51,21 @@ export const generateTiledPdf = async (
     const [embeddedPage] = await pdfDoc.embedPages([srcPages[0]]);
     const { width: srcWidth, height: srcHeight } = embeddedPage.scale(1);
 
-    // Configuration for 8-up (2 columns x 4 rows)
-    const cols = 2;
-    const rows = 4;
+    // Configuration for copies per page
+    const copies = options.copiesPerPage || 8;
+    let cols: number, rows: number;
+    if (copies === 1) {
+      cols = 1; rows = 1;
+    } else if (copies === 4) {
+      cols = 2; rows = 2;
+    } else if (copies === 8) {
+      cols = 2; rows = 4;
+    } else if (copies === 9) {
+      cols = 3; rows = 3;
+    } else {
+      // Default to 2x4 for others
+      cols = 2; rows = 4;
+    }
     const margin = options.margin || 18;
 
     // Calculate cell dimensions
